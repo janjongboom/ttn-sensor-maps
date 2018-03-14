@@ -1,0 +1,36 @@
+{
+  "name": "ttn-sensor-maps",
+  "version": "1.0.0",
+  "description": "Webapp to show sensor data from The Things Network on a map",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "hbs": "^4.0.1",
+    "socket.io": "^2.0.4",
+    "ttn": "^2.3.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janjongboom/ttn-sensor-maps.git"
+  },
+  "keywords": [
+    "mbed",
+    "ttn",
+    "lorawan",
+    "the things network"
+  ],
+  "contributors": [
+    "Jan Jongboom <jan.jongboom@arm.com>",
+    "Johan Stokking <johan@thethingsnetwork.org>"
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/armmbed/sxsw2018/issues"
+  },
+  "homepage": "https://github.com/armmbed/sxsw2018#readme"
+}

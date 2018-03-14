@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+#header {
+  margin-top: 20px;
+  height: 20px;
+  clear: both;
+}
+.logo {
+  height: 20px;
+  margin: 0 20px;
+  float: right;
+}
+body {
+  margin: 0;
+  padding: 0 20px;
+}
+body, input, button {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  color: rgb(80, 79, 77);
+  font-size: 16px;
+}
+h1 {
+  display: inline-block;
+  font-weight: 400;
+  font-size: 28px;
+  margin: 0;
+}
+.title {
+  background: linear-gradient(45deg, #0091BD, #002B49);
+  color: white;
+  margin: 20px -20px;
+  padding: 20px 20px;
+}
+.connect {
+  float: right;
+}
+.connect button, .connect input {
+  font-size: 16px;
+  padding: 4px;
+}
+a {
+  color: #0091BD;
+  text-decoration: none;
+}
+a:hover { color: #333E48; }
+p, li {
+  line-height: 23px;
+}
+h2 {
+  font-weight: 300;
+}
+#sensors { padding: 0; margin-top: -20px; }
+#sensors li {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 20px 0;
+  border-bottom: solid 1px lightgray;
+}
+#sensors li p {
+  margin: 0;
+}
+#sensors li label {
+  display: inline-block;
+  width: 100px;
+  font-weight: bold;
+}
+
+#notification {
+  position: fixed;
+  bottom: 20px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border-radius: 10px;
+  display: inline-block;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.6s ease-out;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#map {
+  width: calc(100% + 40px);
+  height: calc(100vh - 134px);
+  margin: -20px;
+}
+
+.eui {
+  text-align: center;
+}
+
+@media(max-width: 600px) {
+  #header {
+    height: 16px;
+  }
+  .logo {
+    height: 16px;
+    margin: 0 8px;
+    float: right;
+  }
+  .connect {
+    display: none;
+  }
+}
+

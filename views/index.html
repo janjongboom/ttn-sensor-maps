@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>LoRaWAN sensor map - {{title}}</title>
+  <link rel="stylesheet" href="/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- Powered by https://github.com/janjongboom/ttn-sensor-map -->
+</head>
+
+<body>
+  <div id="header">
+    <a target="_blank" href="https://os.mbed.com"><img class="logo" src="/ARMmbedLogo.svg"></a>
+    <a target="_blank" href="https://www.thethingsnetwork.org/"><img class="logo" src="/ttnlogo.png"></a>
+    <a target="_blank" href="https://www.multitech.com/"><img class="logo" src="/mtlogo.png"></a>
+  </div>
+
+  <div class="title">
+    <h1>{{title}}</h1>
+
+    <div class="connect">
+      <input type="text" id="appId" placeholder="Your app ID">
+      <button onclick="connectApplication()">Connect</button>
+    </div>
+  </div>
+
+  <div id="map"></div>
+
+  <div id="notification" style="opacity: 0; visibility: hidden;"></div>
+
+  <script src="/helper.js"></script>
+  <script src="/maps.js"></script>
+  <script src="/Chart.bundle.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    window.devices = {{{devices}}};
+    window.config = {{{config}}};
+  </script>
+  <script>
+    // Here is how we connect back to the server
+    var socket = io.connect(location.origin);
+
+    function createNewDevice(device) {
+      var d = {
+          appId: device.appId,
+          devId: device.devId,
+          eui: device.eui,
+          lat: device.lat,
+          lng: device.lng
+        };
+
+        Object.keys(window.config.dataMapping).forEach(function(k) {
+          d[k] = [];
+        });
+
+        window.devices.push(d);
+        window.addDevice(d);
+
+        return d;
+    }
+
+    socket.on('value-change', function(prop, device, ts, value) {
+      console.log('value-change', prop, device.appId, device.devId, device.eui, ts, value);
+
+      var d = window.devices.filter(function(d) { return d.appId === device.appId && d.devId === device.devId })[0];
+      if (!d) {
+        d = createNewDevice(device);
+      }
+      d[prop].push({ ts: ts, value: value });
+    });
+
+    socket.on('location-change', function(device, lat, lng) {
+      console.log('location-change', device.appId, device.devId, device.eui, lat, lng);
+      var d = window.devices.filter(function(d) { return d.appId === device.appId && d.devId === device.devId })[0];
+      if (!d) {
+        d = createNewDevice(device);
+      }
+      d.marker && d.marker.setPosition(new google.maps.LatLng(device.lat, device.lng));
+    });
+
+    socket.on('connected', function(appId) {
+      showNotification('Successfully connected to ' + appId);
+    });
+
+    socket.on('connect-failed', function(err) {
+      showNotification('Failed to connect. Please check your app ID and access key. ("' + err + '")');
+    });
+
+    function connectApplication() {
+      var appId = document.getElementById('appId').value;
+      if (!appId) return;
+      var accessKey = prompt('Access key for ' + appId, 'ttn-account-v2....');
+      if (!accessKey || accessKey === 'ttn-account-v2....') {
+        return alert('Please enter your access key');
+      }
+      socket.emit('connect-application', appId, accessKey);
+
+      document.getElementById('appId').value = '';
+    }
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key={{{mapsApiKey}}}&amp;callback=initMap"></script>
+
+</body>
+</html>
