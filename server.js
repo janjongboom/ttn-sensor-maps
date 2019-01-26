@@ -36,7 +36,7 @@ const config = {
             minY: 0, // suggested numbers, if numbers out of this range are received the graph will adjust
             maxY: 50,
             numberOfEvents: 30, // no. of events we send to the client
-            data: payload => payload.payload_fields.temperature_10
+            data: payload => payload.payload_fields.temperature_1
         },
         // want more properties? just add more objects here
     },
@@ -192,6 +192,7 @@ function connectApplication(appId, accessKey) {
                         console.error('dataMapping[' + mapKey + '].data() threw an error', ex);
                         throw ex;
                     }
+			console.log(v, typeof v);
 
                     if (typeof v !== 'undefined') {
                         d[mapKey].push({
